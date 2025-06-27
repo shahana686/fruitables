@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Users - Fruitable</title>
+    <link rel="stylesheet" href="/css/view-users.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-success" href="/admin/dashboard">FreshBasket Admin</a>
+            {{!-- <div class="d-flex">
+                <a class="btn btn-outline-danger" href="/admin/logout">Logout</a>
+            </div> --}}
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center text-success mb-4">Registered Users</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center shadow-sm">
+               <thead class="table-success">
+    <tr>
+        {{!-- <th>#</th> --}}
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+         <th>Status</th>  
+        {{!-- <th>Registered Date</th> --}}
+    </tr>
+</thead>
+<tbody>
+    {{#each users}}
+    <tr>
+        {{!-- <td>{{inc @index}}</td> --}}
+        <td>{{this.name}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.PhoneNo}}</td>
+        {{!-- <td>{{formatDate this.createdAt}}</td> --}}
+          <td>
+        <form action="/admin/user-status" method="POST"  onsubmit="return confirmAction('{{this.blocked}}')" >
+          <input type="hidden" name="userId" value="{{this._id}}">
+          {{#if this.blocked}}
+            <button type="submit" name="action" value="unblock" class="btn btn-success">Unblock</button>
+          {{else}}
+            <button type="submit" name="action" value="block" class="btn btn-danger">Block</button>
+          {{/if}}
+        </form>
+      </td>
+    </tr>
+    {{else}}
+    <tr>
+        <td colspan="5" class="text-danger">No users found.</td>
+    </tr>
+    {{/each}}
+</tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/admin/dashboard" class="btn btn-outline-success">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 mb-3 text-muted">
+        &copy; 2025 FreshBasket Admin Panel
+    </footer>
+    
+<script>
+  function confirmAction(isBlocked) {
+    if (isBlocked === 'true') {
+      return confirm("Are you sure you want to unblock this user?");
+    } else {
+      return confirm("Are you sure you want to block this user?");
+    }
+  }
+</script>
+
+</body>
+</html>

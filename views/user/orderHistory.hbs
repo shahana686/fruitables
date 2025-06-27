@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order History</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f9;
+    }
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      background-color: #e9f5f2;
+      border-radius: 1rem 1rem 0 0;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .product-card {
+      transition: transform 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-img {
+      height: 200px;
+      object-fit: cover;
+      border-radius: 0.75rem 0.75rem 0 0;
+    }
+    .card-body h6 {
+      font-weight: 600;
+      color: #333;
+    }
+  </style>
+</head>
+<body class="container py-5">
+  {{#ifEquals returnQuery "success"}}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    ✅ Your return request has been submitted. Please wait for approval.!!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{{/ifEquals}}
+
+  <h2 class="mb-4 text-center">Order History</h2>
+
+  {{#if orders.length}}
+    {{#each orders}}
+      <div class="card mb-5">
+        <div class="card-header d-flex justify-content-between flex-wrap">
+          <span><strong>Order ID:</strong> {{this._id}}</span>
+          <span><strong>Status:</strong> {{this.status}}</span>
+          <span><strong>Date:</strong> {{this.createdAt}}</span>
+        </div>
+        <div class="card-body">
+          {{!-- <div class="mb-3">
+            <strong>Total Price:</strong> ₹{{this.totalPrice}}<br>
+            <strong>Shipping To:</strong> {{this.checkoutDetails.firstName}} {{this.checkoutDetails.lastName}}, 
+            {{this.checkoutDetails.address}}, {{this.checkoutDetails.city}}, 
+            {{this.checkoutDetails.country}} - {{this.checkoutDetails.zip}}<br>
+            <strong>Mobile:</strong> {{this.checkoutDetails.mobile}}
+          </div> --}}
+
+          <h5 class="mb-3"> Ordered Products</h5>
+          <div class="row">
+            {{#each this.products}}
+              <div class="col-md-4 mb-4">
+                <a href="/user/order/{{../_id}}/product/{{this.product._id}}" class="text-decoration-none text-dark">
+                  <div class="card product-card h-100">
+                    <img src="{{this.product.images.[0]}}" class="card-img-top product-img" alt="{{this.product.name}}">
+                    <div class="card-body text-center">
+                      <h6 class="mb-1">{{this.product.name}}</h6>
+                      <p class="mb-0 text-muted">Qty: {{this.quantity}}</p>
+                      <small class="text-muted">Price: ₹{{this.product.price}}</small> 
+                      {{!-- 2 --}}
+                      <br>
+                      {{#ifEquals this.returnStatus "None"}}
+  <small class="text-muted text-warning">Eligible for return</small>
+{{else ifEquals this.returnStatus "Requested"}}
+  <small class="text-muted text-info">Return requested</small>
+{{else ifEquals this.returnStatus "Approved"}}
+  <small class="text-muted text-success">Return approved ✅</small>
+{{else ifEquals this.returnStatus "Rejected"}}
+  <small class="text-muted text-danger">Return rejected ❌</small>
+{{/ifEquals}}
+
+                    </div>
+                  </div>
+                </a>
+              </div>
+            {{/each}}
+          </div>
+          
+{{!-- Return approval or rejection message --}}
+{{!-- {{#if (eq this.returnStatus "Approved")}}      //1
+  <div class="alert alert-success mt-3">
+    ✅ {{this.returnReply}}
+  </div>
+{{else if (eq this.returnStatus "Rejected")}}
+  <div class="alert alert-danger mt-3">
+    ❌ {{this.returnReply}}
+  </div>
+{{/if}} --}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="alert alert-info text-center">No orders placed yet.</div>
+  {{/if}}
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+  
+</body>
+</html>
+

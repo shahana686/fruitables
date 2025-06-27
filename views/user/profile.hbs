@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    .sidebar {
+      background-color: #f8f9fa;
+      border-right: 1px solid #dee2e6;
+      height: 100vh;
+    }
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      background: #ccc;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 sidebar p-4">
+      <h5 class="mb-4">My Profile</h5>
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2">
+          <a class="nav-link text-dark" href="/user/profile">👤 My Profile</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-dark" href="/user/order-history">📦 My Orders</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-dark" href="/user/address">📍 Address Book</a>
+        </li>
+        <li class="nav-item mb-2">
+          {{!-- <a href="/user/logout" class="btn btn-danger">🚪 Logout</a> --}}
+          <button id="logoutBtn" class="btn btn-danger">🚪 Logout</button>
+
+          </li>
+      </ul>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="col-md-9 p-4">
+      <div class="card shadow-sm p-4">
+        <div class="d-flex align-items-center mb-4">
+          <div class="profile-pic me-3"></div>
+          <div>
+            <h5 class="mb-1">{{user.username}}</h5>
+            <p class="mb-0">📧 
+  {{#if user.email}}
+    {{user.email}}
+  {{else}}
+    --
+  {{/if}}
+</p>
+
+            {{!-- <p class="mb-0">📧 {{user.email || "--"}}</p> --}}
+            <p class="mb-0">📱 {{user.PhoneNo}}</p>
+          </div>
+        </div>
+
+        <a href="/user/delete-account" class="btn btn-outline-danger mt-3">Delete my Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('logoutBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Are you sure you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Yes, logout',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = '/user/logout';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

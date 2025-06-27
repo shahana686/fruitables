@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{title}}</title>
+   <link rel="stylesheet" href="/css/userlogin.css" />
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="login-card">
+  <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" alt="Fruit logo" />
+  <h2>Welcome to FreshBasket</h2>
+  <p>Get your daily dose of healthy and fresh produce</p>
+
+  <form action="/user/login" method="POST">
+  {{!-- {{#if message}}
+  <p style="color: red;">{{message}}</p>
+{{/if}} --}}
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email"  />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password"  />
+
+    <button type="submit">Log In</button>
+  </form>
+
+  <a href="/user/signup">Don’t have an account? Sign up</a>
+</div>
+ {{#if message}} 
+ <script>
+  Swal.fire({
+    icon:'error',
+    title:'error',
+    text:'{{message}}'
+      })
+ </script>
+   {{/if}}
+   <script>
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", function (e) {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+      e.preventDefault();
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in all the fields",
+      });
+    }
+  });
+</script>
+<script>
+  if (window.history.replaceState) {
+    window.history.replaceState(null, '', window.location.href);
+  }
+</script>
+
+
+</body>
+</html>
+
+
