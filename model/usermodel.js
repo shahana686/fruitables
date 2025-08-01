@@ -58,11 +58,11 @@ const addressSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    trim: true,
-    unique: true,
-  },
+  // username: {
+  //   type: String,
+  //   trim: true,
+  //   unique: true,
+  // },
   email: String,
   password: String,
   PhoneNo: {

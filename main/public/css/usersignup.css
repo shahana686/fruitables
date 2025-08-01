@@ -1,0 +1,101 @@
+/* Background and body */
+body {
+    background: linear-gradient(135deg, #d9f99d, #a7f3d0); /* Soft green gradient */
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  
+  /* Card container */
+  .login-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+  
+  /* Logo image */
+  .login-card img {
+    width: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  /* Headings */
+  .login-card h2 {
+    color: #15803d; /* Deep green */
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .login-card p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Form styling */
+  form {
+    text-align: left;
+  }
+  
+  form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+  
+  form input {
+    width: 100%;
+    padding: 0.65rem;
+    margin-bottom: 1rem;
+    border: 1px solid #a3e635;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: #f9fafb;
+    transition: border 0.3s;
+  }
+  
+  form input:focus {
+    border-color: #22c55e;
+    outline: none;
+  }
+  
+  /* Submit button */
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #22c55e;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: #15803d;
+  }
+  
+  /* Link below the form */
+  .login-card a {
+    display: block;
+    margin-top: 1rem;
+    text-decoration: none;
+    color: #16a34a;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  
+  .login-card a:hover {
+    text-decoration: underline;
+  }
+  

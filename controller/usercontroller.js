@@ -129,21 +129,36 @@ const loaduserindex = async (req, res) => {
  };
 
 const viewcart = async (req, res) => {
+
   const userId = req.user._id;
 
   try {
     const user = await userSchema.findById(userId);
     const cart = await Cart.findOne({ userId }).populate('items.productId');
+    
 
     let subtotal = 0;
     let reversedItems = [];
 
     if (cart && Array.isArray(cart.items) && cart.items.length > 0) {
-      reversedItems = cart.items.slice().reverse();
-      subtotal = reversedItems.reduce((acc, item) => {
-        return acc + item.productId.price * item.quantity;
-      }, 0);
+
+    //   reversedItems = cart.items.slice().reverse();
+    //   subtotal = reversedItems.reduce((acc, item) => {
+    //     return acc + item.productId.price * item.quantity;
+    //   }, 0);
+    // }
+
+    // Filter out items with null productId
+const validItems = cart.items.filter(item => item.productId);
+
+// Reverse valid items only
+reversedItems = validItems.slice().reverse();
+
+subtotal = reversedItems.reduce((acc, item) => {
+  return acc + item.productId.price * item.quantity;
+}, 0);
     }
+
 
     const shipping = 3;
     const discount = user.appliedCoupon?.discount || 0;
@@ -161,7 +176,8 @@ const viewcart = async (req, res) => {
       discount,
       total,
       couponCode,
-      couponMessage
+      couponMessage,
+       username: user.username || user.email 
     });
   } catch (error) {
     console.error("Error loading cart:", error.message);
@@ -499,6 +515,9 @@ const checkoutPage = async (req, res) => {
     }
 
     let subtotal = 0;
+    
+cart.items = cart.items.filter(item => item.productId); // remove null products
+
     cart.items.forEach(item => {
       subtotal += item.quantity * item.productId.price;
     });
@@ -690,6 +709,7 @@ const stripePublicKey = process.env.STRIPE_PUBLISHABLE_KEY; //1
     if (!cart) return res.redirect('/user/cart');
 
     let subtotal = 0;
+    cart.items = cart.items.filter(item => item.productId); // remove null products
     cart.items.forEach(item => {
       subtotal += item.quantity * item.productId.price;
     });
@@ -927,15 +947,33 @@ const placeOrder = async (req, res) => {
       return res.status(400).send("No address selected.");
     }
 
-    // ✅ Calculate subtotal
-    let subtotal = 0;
-    const products = cart.items.map(item => {
-      subtotal += item.productId.price * item.quantity;
-      return {
-        product: item.productId._id,
-        quantity: item.quantity
-      };
-    });
+    
+//✅ Filter valid cart items (i.e., products that still exist)
+const validItems = cart.items.filter(item => item.productId);
+
+if (validItems.length === 0) {
+  return res.status(400).send("No valid items in the cart.");
+}
+
+// ✅ Calculate subtotal
+let subtotal = 0;
+const products = validItems.map(item => {
+  subtotal += item.productId.price * item.quantity;
+  return {
+    product: item.productId._id,
+    quantity: item.quantity
+  };
+});
+    
+    // // ✅ Calculate subtotal
+    // let subtotal = 0;
+    // const products = cart.items.map(item => {
+    //   subtotal += item.productId.price * item.quantity;
+    //   return {
+    //     product: item.productId._id,
+    //     quantity: item.quantity
+    //   };
+    // });
 
     // ✅ Define shipping and total
     const discount = user.appliedCoupon?.discount || 0;

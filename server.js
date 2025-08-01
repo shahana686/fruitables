@@ -41,6 +41,10 @@ app.use(checkUser);
 app.use('/user',userRoutes)
 app.use('/admin',adminRoutes)
 
+app.get('/', (req, res) => {
+  res.redirect('/user'); // or res.render('index');
+});
+
 
 hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);

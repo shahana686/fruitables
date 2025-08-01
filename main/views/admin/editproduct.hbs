@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Product</title>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+    <div class="card shadow-sm p-4">
+      <h2 class="mb-4">Edit Product</h2>
+
+      <form action="/admin/product/edit/{{product._id}}" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input name="name" value="{{product.name}}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <input name="description" value="{{product.description}}" class="form-control">
+        </div>
+        
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <input name="category" value="{{product.category}}" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="price" class="form-label">Price (₹)</label>
+          <input name="price" type="number" value="{{product.price}}" class="form-control" required>
+        </div>
+
+
+         {{!-- {{#if product.image}}
+        <div class="mb-3">
+          <label class="form-label">Current Image:</label><br>
+          <img src="{{product.image}}" alt="Current Image" width="150" class="img-thumbnail">
+        </div>
+        {{/if}} --}}
+   
+
+               {{#if product.images}}
+  <div class="mb-3">
+    <label class="form-label">Current Images</label>
+    <div class="row">
+      {{#each product.images}}
+        <div class="col-md-3 text-center">
+          <img src="{{this}}" alt="Product Image" class="img-thumbnail mb-2" width="100">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="deleteImages" value="{{this}}" id="{{@index}}">
+            <label class="form-check-label" for="{{@index}}">Delete</label>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+{{/if}}
+
+
+
+    
+            <div class="mb-3">
+            <label for="image" class="form-label">change Image</label>
+            {{!-- <input type="file" class="form-control" name="image" id="image" accept="image/*"> --}}
+            <input type="file" class="form-control" name="images" id="images" accept="image/*" multiple>
+
+            </div>
+
+
+     <div class="mb-3 form-check">
+  <input type="checkbox" class="form-check-input" id="isBestSeller" name="isBestSeller" {{#if product.isBestSeller}}checked{{/if}}>
+  <label class="form-check-label" for="isBestSeller">Best Seller</label>
+</div>
+
+
+        <button type="submit" class="btn btn-primary">Update Product</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle (for dropdowns, modals, etc.) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

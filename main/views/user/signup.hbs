@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshBasket</title>
+    <link rel="stylesheet" href='/css/usersignup.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+</head>
+<body>
+    <div class="login-card">
+  <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" alt="Fruit logo" />
+  <h2>Join FreshBasket</h2>
+  <p>Fresh fruits & veggies delivered to your doorstep</p>
+  <form action="/user/signup" method="POST">
+ 
+   {{!-- <input type="text" id="message" value="{{{message}}}" name="message" hidden> --}}
+     
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Your email address"  />
+
+    <label for="phone">PhoneNo</label>
+    <input type="tel" id="phone" name="PhoneNo" placeholder="Your phone number"  />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Create a password" />
+
+    <label for="confirm">Confirm Password</label>
+    <input type="password" id="confirm" name="confirm" placeholder="Repeat your password" />
+
+    <button type="submit">Create Account</button>
+  </form>
+
+  <a href="/user/login">Already a member? Log in here</a>
+</div>
+
+</body>
+<script>
+  const form = document.querySelector('form');
+
+  form.addEventListener('submit', function (e) {
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const confirm = document.getElementById('confirm').value.trim();
+
+     const phoneRegex = /^[0-9]{10}$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+
+    if (!email || !phone || !password || !confirm) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Fields',
+        text: 'Please fill in all the fields',
+      });
+      return;
+    }
+
+    // Check phone format
+    if (!phoneRegex.test(phone)) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Phone Number',
+        text: 'Phone number must be exactly 10 digits.',
+      });
+      return;
+    }
+
+    // Check password strength
+    if (!passwordRegex.test(password)) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Weak Password',
+        text: 'Password must be at least 6 characters long and include uppercase, lowercase, and a number.',
+      });
+      return;
+    }
+
+    if (password !== confirm) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'error',
+        title: 'Password Mismatch',
+        text: 'Passwords do not match',
+      });
+      return;
+    }
+
+    // You can also add regex checks for phone or email here if needed
+  });
+</script>
+{{#if message}}
+<script>
+  Swal.fire({
+    icon:'error',
+    title:'Error',
+    text:'{{message}}'
+  })
+</script>
+{{/if}}
+
+{{#if success}}
+<script>
+  Swal.fire({
+    icon:'success',
+    title:'Success',
+    text:'{{success}}'
+  })
+</script>
+{{/if}}
+
+
+</html>

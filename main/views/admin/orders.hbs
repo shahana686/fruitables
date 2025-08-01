@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Orders</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <div class="container my-5">
+    <h1 class="mb-4 text-center text-primary">All Orders</h1>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
+        <thead class="table-primary">
+          <tr>
+            <th scope="col">User</th>
+            <th scope="col">Products</th>
+            <th scope="col">Total</th>
+            <th scope="col">Status</th>
+            <th scope="col">Placed At</th>
+             <th scope="col">Address</th>
+            <th scope="col">Payment Method</th>
+            <th scope="col">Payment Status</th>
+           
+
+
+          </tr>
+        </thead>
+        <tbody>
+          {{#each orders}}
+          <tr>
+        
+            <td>{{this.user.email}}</td>
+            <td>
+              <ul class="mb-0 ps-3">
+                {{#each this.products}}
+                  <li>{{this.product.name}} x {{this.quantity}}</li>
+                {{/each}}
+              </ul>
+            </td>
+            <td>₹{{this.totalPrice}}</td>
+            <td>
+              {{!-- <span class="badge bg-info text-dark">{{this.status}}</span> --}}
+
+
+  <form action="/admin/update-order-status" method="POST" class="d-inline">
+    <input type="hidden" name="orderId" value="{{this._id}}">
+    <select name="status" class="form-select form-select-sm d-inline w-auto" onchange="this.form.submit()">
+      <option value="Pending" {{#if (eq this.status "Pending")}}selected{{/if}}>Pending</option>
+      <option value="Shipped" {{#if (eq this.status "Shipped")}}selected{{/if}}>Shipped</option>
+      <option value="Delivered" {{#if (eq this.status "Delivered")}}selected{{/if}}>Delivered</option>
+      <option value="Delayed" {{#if (eq this.status "Delayed")}}selected{{/if}}>Delayed</option>
+    </select>
+  </form>
+  <br/>
+  <span class="badge mt-2 
+    {{#if (eq this.status 'Pending')}}bg-warning text-dark
+    {{else if (eq this.status 'Shipped')}}bg-primary
+    {{else if (eq this.status 'Delivered')}}bg-success
+    {{else if (eq this.status 'Delayed')}}bg-danger
+    {{/if}}">
+    {{this.status}}
+  </span>
+
+            </td>
+            <td>{{this.createdAt}}</td>
+                <td>
+      {{this.checkoutDetails.firstName}} {{this.checkoutDetails.lastName}}<br>
+      {{this.checkoutDetails.address}}<br>
+      {{this.checkoutDetails.city}}, {{this.checkoutDetails.country}} - {{this.checkoutDetails.zip}}<br>
+      Mobile: {{this.checkoutDetails.mobile}}<br>
+      Email: {{this.checkoutDetails.email}}<br>
+      Notes: {{this.checkoutDetails.notes}}
+    </td>
+
+            <td>
+  <span class="badge 
+    {{#if (eq this.paymentMethod 'COD')}}bg-secondary
+    {{else if (eq this.paymentMethod 'Stripe')}}bg-dark
+    {{/if}}">
+    {{this.paymentMethod}}
+  </span>
+</td>
+
+<td>
+  <span class="badge 
+    {{#if (eq this.paymentStatus 'Pending')}}bg-warning text-dark
+    {{else if (eq this.paymentStatus 'Paid')}}bg-success
+    {{else if (eq this.paymentStatus 'Failed')}}bg-danger
+    {{/if}}">
+    {{this.paymentStatus}}
+  </span>
+</td>
+
+
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+<script>
+  document.querySelectorAll('select[name="status"]').forEach(select => {
+    select.addEventListener('change', function (e) {
+      if (!confirm("Are you sure you want to change the status?")) {
+        e.preventDefault();
+      }
+    });
+  });
+</script>
+
+
+</body>
+</html>

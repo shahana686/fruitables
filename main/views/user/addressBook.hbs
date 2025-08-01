@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Address Book</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container py-4">
+  <h3 class="mb-4">Saved Addresses</h3>
+  <div class="mb-5">
+  <a href="/user/add-address" class="btn btn-primary mt-3">+ Add New Address</a> 
+</div>
+
+  {{#if addresses.length}}
+    <div class="row">
+      {{#each addresses}}
+        <div class="col-md-6 mb-3">
+          <div class="card p-3 shadow-sm">
+            <h5>{{this.firstName}} {{this.lastName}}</h5>
+            <p>{{this.address}}, {{this.city}}, {{this.zip}}, {{this.country}}</p>
+            <p>📞 {{this.mobile}}</p>
+            <p>📧 {{this.email}}</p>
+            {{#if this.notes}}<p><strong>Notes:</strong> {{this.notes}}</p>{{/if}}
+            
+  <div class="d-flex justify-content-end gap-2 mt-2">
+    <a href="/user/edit-address/{{this._id}}" class="btn btn-sm btn-outline-primary">Edit</a>
+    <form action="/user/delete-address/{{this._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this address?');">
+      <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+    </form>
+  </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <p>No addresses saved yet.</p>
+  {{/if}}
+</body>
+</html>

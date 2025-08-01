@@ -1,0 +1,80 @@
+/* style.css */
+body {
+    background: linear-gradient(135deg, #d9f99d, #a7f3d0);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  
+  .login-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .login-card img {
+    width: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  .login-card h2 {
+    color: #15803d;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .login-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+  
+  form {
+    text-align: left;
+  }
+  
+  form label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+  
+  form input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid #a3e635;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #22c55e;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: #15803d;
+  }
+  
+  .login-card a {
+    display: block;
+    margin-top: 1rem;
+    text-decoration: none;
+    color: #16a34a;
+    font-weight: 500;
+  }
+  
